@@ -8,4 +8,23 @@ class Book < ApplicationRecord
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
+
+  def self.search_for(word, search)
+    if search == 'perfect'
+      Book.where(title: word).or(Book.where(body: word))
+
+    elsif search == 'forward'
+      Book.where('title LIKE ?', word + '%').or(Book.where('body LIKE ?', word + '%'))
+
+    elsif search == 'backward'
+      Book.where('title LIKE ?', '%' + word).or(Book.where('body LIKE ?', '%' + word))
+
+    elsif search == 'partial'
+      Book.where('title LIKE ?', '%' + word + '%').or(Book.where('body LIKE ?', '%' + word + '%'))
+
+    else
+      Book.all
+
+    end
+  end
 end
