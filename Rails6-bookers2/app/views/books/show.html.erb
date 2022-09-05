@@ -18,8 +18,12 @@
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
 
-          <td><%= render "favorites/btn", book: @book %></td>
-          <td><%= render "book_comments/counter", book: @book %></td>
+          <td class=<%= "favorite-" + @book.id.to_s %> >
+            <%= render "favorites/btn", book: @book %>
+          </td>
+          <td class="book-comments-counter">
+            <%= render "book_comments/counter", book: @book %>
+          </td>
 
           <% if @book.user == current_user %>
 
@@ -28,7 +32,10 @@
           <% end %>
         </tr>
       </table>
-      <%= render "book_comments/index", book: @book %>
+      <div class="book-comments-index">
+        <%= render "book_comments/index", book: @book %>
+      </div>
+
       <%= render "book_comments/form", book: @book, book_comment: @book_comment %>
     </div>
   </div>
